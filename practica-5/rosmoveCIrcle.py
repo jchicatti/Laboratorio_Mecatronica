@@ -89,3 +89,26 @@ def go_to_goal (xgoal, ygoal):
 		if (distance < 0.1):
 			time.sleep(1)
 			break 
+			
+if __name__ == '__main__':
+	try:
+
+		rospy.init_node('turtlesim_motion_pose', anonymous = True)
+
+		cmd_vel_topic = '/turtle1/cmd_vel'
+		velocity_publisher = rospy.Publisher(cmd_vel_topic, Twist, queue_size = 10)
+
+		position_topic = "/turtle1/pose"
+		pose_subscriber = rospy.Subscriber(position_topic, Pose, poseCallback)
+
+		#Circulo
+		n = 32
+		for i in np.linspace(0, 2*(math.pi), n):
+			xg = 5 + 2*math.cos(i)
+			yg = 5 + 2*math.sin(i)
+			orientate(xg, yg)
+			go_to_goal(xg, yg)
+				
+
+	except rospy.ROSInterruptException:        
+		pass
